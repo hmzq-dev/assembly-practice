@@ -7,6 +7,7 @@ To assemble the code with NASM on linux and execute it, run the following comman
 Generates object code (in elf64 format) from source code
 
 `ld ./object-code/file.o -o ./executables/file`
+
 Linker: Generates the executable file from object code
 
 `./executables/file`
