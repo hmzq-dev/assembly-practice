@@ -1,15 +1,5 @@
 Assembly language used: X86-64 Intel
 
-To assemble the code with NASM on linux and execute it, run the following commands in the main project directory:
+To assemble the code with NASM on linux and execute it, run the `run-asm.sh` script with the following command:
 
-`nasm file.asm -f elf64 -o ./object-code/file.o`
-
-Generates object code (in elf64 format) from source code
-
-`ld ./object-code/file.o -o ./executables/file`
-
-Linker: Generates the executable file from object code
-
-`./executables/file`
-
-Runs the executable file
+`bash run-asm.sh`
