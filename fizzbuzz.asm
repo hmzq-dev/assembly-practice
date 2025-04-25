@@ -4,8 +4,12 @@
 section .data
     fizz: db "fizz", 0
     buzz: db "buzz", 0
-    plus: db 58, 32, 0
+    colon: db 58, 32, 0
     newline: db 10, 13, 0
+
+
+section .bss
+    iteration_counter: resb 3
 
 
 section .text
@@ -14,16 +18,27 @@ section .text
 
 _start:
     ; r13 is loop counter
-    mov r13, 0
+    mov r13, 9
     call iterate
     call exit
 
 
 iterate:
     inc r13
+    ; copy counter to r11 for manipulation
+    mov r11, r13
 
-    ; Print plus sign to signify new line
-    mov rsi, plus
+    ; Print iteration counter
+    mov r15, 0
+    mov r14, 1
+    mov r9, 1
+    call two_digit
+    call three_digit
+
+    call int_to_ascii
+    mov rsi, iteration_counter
+    call output
+    mov rsi, colon
     call output
 
     ; Check if divisible by 3
@@ -42,6 +57,40 @@ iterate:
 
     cmp r13, 100
     jne iterate
+    ret
+
+
+two_digit:
+    cmp r13, 10
+    jl return
+    inc r9
+    ret
+
+
+three_digit:
+    cmp r13, 100
+    jl return
+    inc r9
+    ret
+
+
+int_to_ascii:
+    ; r15 -> loop counter, r14 -> divisor
+    mov rax, r11
+    mov rdx, 0
+    div r14
+    add rax, 48
+    mov byte [iteration_counter + r15], al
+    mov r11, rdx
+    mov rax, r14
+    mov r10, 10
+    mul r10
+    mov r14, rax
+
+    ; Loop condition
+    inc r15
+    cmp r15, r9
+    jne int_to_ascii
     ret
 
 
