@@ -18,7 +18,7 @@ section .text
 
 _start:
     ; r13 is loop counter
-    mov r13, 9
+    mov r13, 0
     call iterate
     call exit
 
@@ -30,7 +30,7 @@ iterate:
 
     ; Print iteration counter
     mov r15, 0
-    mov r14, 1
+    mov r14, 10
     mov r9, 1
     call two_digit
     call three_digit
@@ -64,6 +64,10 @@ two_digit:
     cmp r13, 10
     jl return
     inc r9
+    mov rax, r14
+    mov r10, 10
+    mul r10
+    mov r14, rax
     ret
 
 
@@ -71,21 +75,27 @@ three_digit:
     cmp r13, 100
     jl return
     inc r9
+    mov rax, r14
+    mov r10, 10
+    mul r10
+    mov r14, rax
     ret
 
 
 int_to_ascii:
     ; r15 -> loop counter, r14 -> divisor
+    mov rdx, 0
+    mov rax, r14
+    mov r10, 10
+    div r10
+    mov r14, rax
+
     mov rax, r11
     mov rdx, 0
     div r14
     add rax, 48
     mov byte [iteration_counter + r15], al
     mov r11, rdx
-    mov rax, r14
-    mov r10, 10
-    mul r10
-    mov r14, rax
 
     ; Loop condition
     inc r15
